@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malware Analysis & Cyber Attribution</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Base Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s;
+            background-color: #1b1c1e;
+            color: #e0e0e0;
+        }
+        body.dark-mode {
+            background-color: #0d0d0d;
+            color: #b0b0b0;
+        }
+        header {
+            background: linear-gradient(135deg, #00C9FF, #92FE9D);
+            color: white;
+            text-align: center;
+            padding: 1.5em 0;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border-bottom: 5px solid #00C9FF;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: bold;
+        }
+        header p {
+            margin: 0.5em 0 0;
+            font-size: 1.2em;
+            font-weight: lighter;
+        }
+        .dark-mode header {
+            background: linear-gradient(135deg, #003366, #336699);
+        }
+        .toggle-switch-container {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            align-items: center;
+            gap: 0.5em;
+        }
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #bbb;
+            transition: .4s;
+            border-radius: 34px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            border-radius: 50%;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+        }
+        input:checked + .toggle-slider {
+            background-color: #00C9FF;
+        }
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+        .main-content {
+            padding: 1.5em;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5em;
+        }
+        .section-wrapper {
+            background: linear-gradient(134deg, #28313B, #485461);
+            border-radius: 10px;
+            padding: 2em;
+            flex: 1;
+            min-width: 320px;
+            transition: background-color 0.3s, box-shadow 0.3s;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+        }
+        .dark-mode .section-wrapper {
+            background: linear-gradient(135deg, #1a1a1a, #333);
+        }
+        .section-wrapper h2 {
+            font-size: 1.6em;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            color: #00C9FF;
+        }
+        .section-wrapper i {
+            margin-right: 0.5em;
+            color: #92FE9D;
+        }
+        .form-group {
+            margin-bottom: 1.5em;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5em;
+            font-weight: bold;
+            color: #e0e0e0;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.75em;
+            border: 1px solid #444;
+            border-radius: 6px;
+            background-color: #2b2b2b;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+        .dark-mode .form-group input, .dark-mode .form-group select {
+            background-color: #333;
+            border-color: #555;
+            color: #b0b0b0;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        button {
+            background: linear-gradient(135deg, #00C9FF, #92FE9D);
+            color: white;
+            border: none;
+            padding: 0.75em;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1em;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+        .dark-mode button {
+            background: linear-gradient(135deg, #336699, #003366);
+            border-color: #003366;
+        }
+        button:hover {
+            background: linear-gradient(135deg, #00A3E8, #5EFC8D);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+        .dark-mode button:hover {
+            background: linear-gradient(135deg, #335577, #002244);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+        }
+        /* Dark Mode Toggle Styles */
+        .toggle-switch-container .icon {
+            font-size: 1.5em;
+            color: #00C9FF;
+        }
+        .dark-mode .toggle-switch-container .icon {
+            color: #00C9FF;
+        }
+    </style>
+    <script>
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            localStorage.setItem('dark-mode', isDarkMode);
+        }
+
+        function initializeDarkMode() {
+            const darkMode = localStorage.getItem('dark-mode') === 'true';
+            if (darkMode) {
+                document.body.classList.add('dark-mode');
+                document.getElementById('darkModeSwitch').checked = true;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', initializeDarkMode);
+
+        function toggleInputType() {
+            const vtType = document.getElementById('vt_type').value;
+            const vtValue = document.getElementById('vt_value');
+            const vtFile = document.getElementById('vt_file');
+            if (vtType === 'file') {
+                vtValue.style.display = 'none';
+                vtFile.style.display = 'block';
+            } else {
+                vtValue.style.display = 'block';
+                vtFile.style.display = 'none';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('vt_type').addEventListener('change', toggleInputType);
+            toggleInputType(); // Initialize based on the default selection
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <h2>Malware Reverse Engineering</h2>
+        <p>Perform comprehensive analysis and attribution on malware samples.</p>
+        <div class="toggle-switch-container">
+            <i class="fas fa-sun icon" id="sunIcon"></i>
+            <label class="toggle-switch">
+                <input type="checkbox" id="darkModeSwitch" onclick="toggleDarkMode()">
+                <span class="toggle-slider"></span>
+            </label>
+            <i class="fas fa-moon icon" id="moonIcon"></i>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <!-- PE File Analysis -->
+            <section class="section-wrapper">
+                <form action="{{ url_for('analyze_pe') }}" method="post">
+                    <h2><i class="fas fa-file-alt"></i> PE File Analysis</h2>
+                    <div class="form-group">
+                        <label for="file_path">File Path:</label>
+                        <input type="text" id="file_path" name="file_path" placeholder="Enter PE file path" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="text" id="email" name="email" placeholder="Enter your email" required>
+                    </div>
+                    <button type="submit">Analyze PE File</button>
+                </form>
+            </section>
+            
+              <!-- String Miner -->
+    <section class="section-wrapper">
+        <form action="{{ url_for('string_miner') }}" method="post">
+            <h2><i class="fas fa-file-alt"></i> String Miner</h2>
+            <div class="form-group">
+                <label for="file_path">File Path:</label>
+                <input type="text" id="file_path" name="file_path" placeholder="Enter file path" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+            <button type="submit">Extract Strings</button>
+        </form>
+    </section>
+
+
+           
+            <!-- Code breaker-->
+            <section class="section-wrapper">
+                <form action="{{ url_for('disassemble_code') }}" method="post">
+                    <h2><i class="fas fa-code"></i> Code disassemble </h2>
+                    <div class="form-group">
+                        <label for="code">Hexadecimal Code:</label>
+                        <input type="text" id="code" name="code" placeholder="Enter hexadecimal code" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="text" id="email" name="email" placeholder="Enter your email" required>
+                    </div>
+                    <button type="submit">Disassemble Code</button>
+                </form>
+            </section>
+
+            <!-- graphinsight Analysis -->
+            <section class="section-wrapper">
+                <form action="{{ url_for('analyze_with_graphinsight') }}" method="post">
+                    <h2><i class="fas fa-radiation"></i> Graph Insight</h2>
+                    <div class="form-group">
+                        <label for="file_path">File Path:</label>
+                        <input type="text" id="file_path" name="file_path" placeholder="Enter file path" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="text" id="email" name="email" placeholder="Enter your email" required>
+                    </div>
+                    <button type="submit">Analyze with Graphinsight</button>
+                </form>
+            </section>
+            <!-- zen Scan -->
+<section class="section-wrapper">
+    <form action="{{ url_for('yara_scan') }}" method="post" enctype="multipart/form-data">
+        <h2><i class="fas fa-search"></i> zen Scan</h2>
+        <div class="form-group">
+            <label for="file">Upload File:</label>
+            <input type="file" id="file" name="file" required>
+        </div>
+        <div class="form-group">
+            <label for="rule_path">zen Rule Path:</label>
+            <input type="text" id="rule_path" name="rule_path" placeholder="Enter zen rule path" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+        </div>
+        <button type="submit">Run zen Scan</button>
+    </form>
+</section>
+
+            <!-- DNS Lookup -->
+            <section class="section-wrapper">
+                <form action="{{ url_for('dns_lookup') }}" method="post">
+                    <h2><i class="fas fa-globe"></i> DNS Lookup</h2>
+                    <div class="form-group">
+                        <label for="domain">Domain:</label>
+                        <input type="text" id="domain" name="domain" placeholder="Enter domain" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="text" id="email" name="email" placeholder="Enter your email" required>
+                    </div>
+                    <button type="submit">Perform DNS Lookup</button>
+                </form>
+            </section>
+
+            <!-- GeoIP Lookup -->
+            <section class="section-wrapper">
+                <form action="{{ url_for('geoip_country_lookup') }}" method="post">
+                    <h2><i class="fas fa-map-marker-alt"></i> GeoIP Lookup</h2>
+                    <div class="form-group">
+                        <label for="ip_address">IP Address:</label>
+                        <input type="text" id="ip_address" name="ip_address" placeholder="Enter IP address" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="text" id="email" name="email" placeholder="Enter your email" required>
+                    </div>
+                    <button type="submit">Perform GeoIP Lookup</button>
+                </form>
+            </section>
+
+           <!-- Threat Scan -->
+<section class="section-wrapper">
+    <form action="{{ url_for('Threat_scan') }}" method="post" enctype="multipart/form-data">
+        <h2><i class="fas fa-shield-virus"></i> Threat Scan</h2>
+        <div class="form-group">
+            <label for="vt_type">Scan Type:</label>
+            <select id="vt_type" name="vt_type" required onchange="toggleInputFields()">
+                <option value="file_hash">File Hash</option>
+                <option value="file">File</option>
+                <option value="domain">Domain</option>
+                <option value="ip-address">IP Address</option>
+                <option value="url">URL</option>
+            </select>
+        </div>
+        <div class="form-group" id="vt_value_group">
+            <label for="vt_value" id="vt_value_label">Value:</label>
+            <input type="text" id="vt_value" name="vt_value" placeholder="Enter value" required>
+        </div>
+        <div class="form-group" id="vt_file_group" style="display:none;">
+            <label for="vt_file" id="vt_file_label">Upload File:</label>
+            <input type="file" id="vt_file" name="vt_file">
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email" placeholder="Enter your email" required>
+        </div>
+        <button type="submit">Perform ThreatScan</button>
+    </form>
+</section>
+</main>
+
+<script>
+function toggleInputFields() {
+    const vtType = document.getElementById('vt_type').value;
+    const vtValueGroup = document.getElementById('vt_value_group');
+    const vtFileGroup = document.getElementById('vt_file_group');
+    const vtValueInput = document.getElementById('vt_value');
+    const vtFileInput = document.getElementById('vt_file');
+    
+    if (vtType === 'file') {
+        vtValueGroup.style.display = 'none';
+        vtValueInput.required = false;
+        vtFileGroup.style.display = 'block';
+        vtFileInput.required = true;
+    } else {
+        vtFileGroup.style.display = 'none';
+        vtFileInput.required = false;
+        vtValueGroup.style.display = 'block';
+        vtValueInput.required = true;
+    }
+}
+</script>
+
+</body>
+</html>

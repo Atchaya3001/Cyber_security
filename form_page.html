@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Page - Malware Analysis</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <script>
+        function toggleForm(formType) {
+            document.querySelectorAll('.form-section').forEach(function(section) {
+                section.style.display = 'none';
+            });
+            document.getElementById(formType).style.display = 'block';
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Malware Analysis Forms</h1>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('index') }}">Home</a></li>
+                    <li><a href="{{ url_for('form_page') }}">Forms</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <h2>Select Analysis Type</h2>
+            <div class="form-selector">
+                <button onclick="toggleForm('pe_analysis')">PE File Analysis</button>
+                <button onclick="toggleForm('yara_scan')">YARA Scan</button>
+                <button onclick="toggleForm('network_capture')">Network Capture</button>
+                <button onclick="toggleForm('behavioral_analysis')">Behavioral Analysis</button>
+                <button onclick="toggleForm('code_disassembly')">Code Disassembly</button>
+                <button onclick="toggleForm('radare2_analysis')">Radare2 Analysis</button>
+                <button onclick="toggleForm('cfg_generation')">CFG Generation</button>
+                <button onclick="toggleForm('dns_lookup')">DNS Lookup</button>
+                <button onclick="toggleForm('geoip_lookup')">GeoIP Lookup</button>
+                <button onclick="toggleForm('advanced_geoip_lookup')">Advanced GeoIP Lookup</button>
+                <button onclick="toggleForm('threat_intelligence')">Automated Threat Intelligence</button>
+                <button onclick="toggleForm('sandbox_setup')">Sandbox Setup</button>
+                <button onclick="toggleForm('run_malware')">Run Malware</button>
+                <button onclick="toggleForm('cyber_attribution')">Cyber Attribution</button>
+            </div>
+
+            <div id="pe_analysis" class="form-section" style="display:none;">
+                <h3>PE File Analysis</h3>
+                <form action="/analyze_pe" method="post">
+                    <div class="form-group">
+                        <label for="file_path">File Path:</label>
+                        <input type="text" id="file_path" name="file_path" required>
+                    </div>
+                    <button type="submit">Analyze PE File</button>
+                </form>
+            </div>
+
+            <div id="yara_scan" class="form-section" style="display:none;">
+                <h3>YARA Scan</h3>
+                <form action="/yara_scan" method="post">
+                    <div class="form-group">
+                        <label for="file_path">File Path:</label>
+                        <input type="text" id="file_path" name="file_path" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="rule_path">YARA Rule Path:</label>
+                        <input type="text" id="rule_path" name="rule_path" required>
+                    </div>
+                    <button type="submit">Run YARA Scan</button>
+                </form>
+            </div>
+
+            <div id="network_capture" class="form-section" style="display:none;">
+                <h3>Network Capture</h3>
+                <form action="/capture_network" method="post">
+                    <div class="form-group">
+                        <label for="interface">Network Interface:</label>
+                        <input type="text" id="interface" name="interface" required>
+                    </div>
+                    <button type="submit">Capture Network Traffic</button>
+                </form>
+            </div>
+
+            <div id="behavioral_analysis" class="form-section" style="display:none;">
+                <h3>Behavioral Analysis</h3>
+                <form action="/behavioral_analysis" method="post">
+                    <div class="form-group">
+                        <label for="executable">Executable Path:</label>
+                        <input type="text" id="executable" name="executable" required>
+                    </div>
+                    <button type="submit">Analyze Behavioral</button>
+                </form>
+            </div>
+
+            <div id="code_disassembly" class="form-section" style="display:none;">
+                <h3>Code Disassembly</h3>
+                <form action="/disassemble_code" method="post">
+                    <div class="form-group">
+                        <label for="code">Hex Code:</label>
+                        <textarea id="code" name="code" rows="10" required></textarea>
+                    </div>
+                    <button type="submit">Disassemble Code</button>
+                </form>
+            </div>
+
+            <div id="radare2_analysis" class="form-section" style="display:none;">
+                <h3>Radare2 Analysis</h3>
+                <form action="/analyze_with_radare2" method="post">
+                    <div class="form-group">
+                        <label for="file_path">File Path:</label>
+                        <input type="text" id="file_path" name="file_path" required>
+                    </div>
+                    <button type="submit">Analyze with Radare2</button>
+                </form>
+            </div>
+
+            <div id="cfg_generation" class="form-section" style="display:none;">
+                <h3>Control Flow Graph Generation</h3>
+                <form action="/generate_cfg" method="post">
+                    <div class="form-group">
+                        <label for="file_path">File Path:</label>
+                        <input type="text" id="file_path" name="file_path" required>
+                    </div>
+                    <button type="submit">Generate CFG</button>
+                </form>
+            </div>
+
+            <div id="dns_lookup" class="form-section" style="display:none;">
+                <h3>DNS Lookup</h3>
+                <form action="/dns_lookup" method="post">
+                    <div class="form-group">
+                        <label for="domain">Domain:</label>
+                        <input type="text" id="domain" name="domain" required>
+                    </div>
+                    <button type="submit">Perform DNS Lookup</button>
+                </form>
+            </div>
+
+            <div id="geoip_lookup" class="form-section" style="display:none;">
+                <h3>GeoIP Lookup</h3>
+                <form action="/geoip_lookup" method="post">
+                    <div class="form-group">
+                        <label for="ip_address">IP Address:</label>
+                        <input type="text" id="ip_address" name="ip_address" required>
+                    </div>
+                    <button type="submit">Perform GeoIP Lookup</button>
+                </form>
+            </div>
+
+            <div id="advanced_geoip_lookup" class="form-section" style="display:none;">
+                <h3>Advanced GeoIP Lookup</h3>
+                <form action="/advanced_geoip_lookup" method="post">
+                    <div class="form-group">
+                        <label for="ip_address">IP Address:</label>
+                        <input type="text" id="ip_address" name="ip_address" required>
+                    </div>
+                    <button type="submit">Perform Advanced GeoIP Lookup</button>
+                </form>
+            </div>
+
+            <div id="threat_intelligence" class="form-section" style="display:none;">
+                <h3>Automated Threat Intelligence</h3>
+                <form action="/automated_threat_intelligence" method="post">
+                    <div class="form-group">
+                        <label for="ip_address">IP Address:</label>
+                        <input type="text" id="ip_address" name="ip_address" required>
+                    </div>
+                    <button type="submit">Perform Threat Intelligence</button>
+                </form>
+            </div>
+
+            <div id="sandbox_setup" class="form-section" style="display:none;">
+                <h3>Sandbox Setup</h3>
+                <form action="/sandbox_setup" method="post">
+                    <button type="submit">Setup Sandbox</button>
+                </form>
+            </div>
+
+            <div id="run_malware" class="form-section" style="display:none;">
+                <h3>Run Malware in Sandbox</h3>
+                <form action="/run_malware" method="post">
+                    <div class="form-group">
+                        <label for="file_path">File Path:</label>
+                        <input type="text" id="file_path" name="file_path" required>
+                    </div>
+                    <button type="submit">Run Malware</button>
+                </form>
+            </div>
+
+            <div id="cyber_attribution" class="form-section" style="display:none;">
+                <h3>Cyber Attribution</h3>
+                <form action="/virustotal_scan" method="post">
+                    <div class="form-group">
+                        <label for="vt_type">Type:</label>
+                        <select id="vt_type" name="vt_type" required>
+                            <option value="file">File Hash</option>
+                            <option value="domain">Domain</option>
+                            <option value="ip-address">IP Address</option>
+                            <option value="url">URL</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="vt_value">Value:</label>
+                        <input type="text" id="vt_value" name="vt_value" required>
+                    </div>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Malware Analysis Tool</p>
+        </div>
+    </footer>
+</body>
+</html>
