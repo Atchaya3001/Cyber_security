@@ -1,7 +1,7 @@
 
 ## MALWARE  ANALYSIS
 
-Malware Analysis (MA.py) is a web-based tool designed for cybersecurity professionals to perform comprehensive malware analysis and cyber attribution. It integrates multiple analysis tools such as YARA, Radare2, and VirusTotal, enabling in-depth examination of files and detailed reporting.
+Malware Analysis (MA.py) is a web-based tool designed for cybersecurity professionals to perform comprehensive malware analysis and cyber attribution. It integrates multiple analysis tools such as ZEN scan, Graph insight, code breaker, string miner and Threatscan , enabling in-depth examination of files and detailed reporting.
 ## Features
 
 - Zen scan : Upload custom YARA rules to scan files for known malicious patterns, and receive detailed match information.
@@ -37,7 +37,7 @@ Malware Analysis (MA.py) is a web-based tool designed for cybersecurity professi
    ```
   4. Configure the Application:
   
-        Modify the `config.py` file to set up paths for YARA rules, your VirusTotal API key, and email settings.
+        Modify the `config.py` file to set up paths for Zen rules, your API key, and email settings.
 
   5. Run the Application:
    ```bash
@@ -48,7 +48,7 @@ Malware Analysis (MA.py) is a web-based tool designed for cybersecurity professi
 
 ## Usage
 
-- ZEN Scan: Upload a file and specify the YARA rule file path to initiate a scan. Results are displayed in the interface and sent via email.
+- ZEN Scan: Upload a file and specify the Zen rule file path to initiate a scan. Results are displayed in the interface and sent via email.
 - Graph insight : Upload a file for static analysis and view control flow graphs directly on the interface.
 - Threat scan : Enter a file, URL, domain, or IP address.
 - String Miner : upload a file and its extracts the string from the file.
