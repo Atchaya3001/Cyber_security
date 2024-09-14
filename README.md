@@ -23,28 +23,28 @@ Malware Analysis (MA.py) is a web-based tool designed for cybersecurity professi
 ## Steps
 
    
-    1. Clone the Repository:
+  1. Clone the Repository:
    ```bash
       git clone https://github.com/kousalyadev/malware.git
    ```
-    2. Navigate to the Project Directory:
+  2. Navigate to the Project Directory:
    ```bash
       cd Malware-Analysis
    ```
-    3. Install Required Dependencies:
+  3. Install Required Dependencies:
    ```bash
       pip install -r requirements.txt
    ```
-    4. Configure the Application:
+  4. Configure the Application:
   ```bash 
     - Modify the `config.py` file to set up paths for YARA rules, your VirusTotal API key, and email settings.
   ``` 
 
-    5. Run the Application:
+  5. Run the Application:
    ```bash
       python MA.py
    ```
-    6. Access the Web Interface:
+  6. Access the Web Interface:
        - Open your browser and go to `http://127.0.0.1:__user defined port___`.
 
 ## Usage
