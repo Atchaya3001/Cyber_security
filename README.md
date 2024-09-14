@@ -36,16 +36,15 @@ Malware Analysis (MA.py) is a web-based tool designed for cybersecurity professi
       pip install -r requirements.txt
    ```
   4. Configure the Application:
-  ```bash 
-    - Modify the `config.py` file to set up paths for YARA rules, your VirusTotal API key, and email settings.
-  ``` 
+  
+        Modify the `config.py` file to set up paths for YARA rules, your VirusTotal API key, and email settings.
 
   5. Run the Application:
    ```bash
       python MA.py
    ```
   6. Access the Web Interface:
-       - Open your browser and go to `http://127.0.0.1:__user defined port___`.
+     Open your browser and go to `http://127.0.0.1:__user defined port___`.
 
 ## Usage
 
@@ -71,23 +70,23 @@ Contributions are welcome! To contribute:
 
 License:
 
-    This project is licensed under the MIT License - see the LICENSE file for details.
+   This project is licensed under the MIT License - see the LICENSE file for details.
 
 Contact:
 
-    For support or inquiries, contact Atchaya Arumugam at atchayaarumugam2004@gmail.com.
+   For support or inquiries, contact Atchaya Arumugam at atchayaarumugam2004@gmail.com.
 
 Acknowledgments:
 
-    1.Graph insight: Open-source software for reverse engineering.
+   1.Graph insight: Open-source software for reverse engineering.
 
-    2.ZEN scan: Tool for identifying and classifying malware samples.
+   2.ZEN scan: Tool for identifying and classifying malware samples.
 
-    3.Threat Scan: Online service for analyzing files and URLs for viruses.
+   3.Threat Scan: Online service for analyzing files and URLs for viruses.
 
 
 GitHub Repository:
 
-    Find the source code at Malware Analysis & Cyber Attribution on GitHub: https://github.com/Atchaya3001/cyber_security.
+  Find the source code at Malware Analysis & Cyber Attribution on GitHub: https://github.com/Atchaya3001/cyber_security.
 
 
