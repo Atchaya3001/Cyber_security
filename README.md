@@ -4,7 +4,7 @@
 Malware Analysis (MA.py) is a web-based tool designed for cybersecurity professionals to perform comprehensive malware analysis and cyber attribution. It integrates multiple analysis tools such as ZEN scan, Graph insight, code breaker, string miner and Threatscan , enabling in-depth examination of files and detailed reporting.
 ## Features
 
-- Zen scan : Upload custom YARA rules to scan files for known malicious patterns, and receive detailed match information.
+- Zen scan : Upload custom ZEN rules to scan files for known malicious patterns, and receive detailed match information.
 - Graph insight : Conduct advanced static analysis, generate control flow graphs (CFGs), and export results for further investigation.
 - Threat Scan : Check files, URLs, domains, and IP addresses against VirusTotal’s database, with automatic report sharing.
 -  String extraction : string extraction from a malicious file is a fundamental technique in malware analysis that involves extracting human-readable text (or "strings") from a binary file, such as an executable or a DLL. 
