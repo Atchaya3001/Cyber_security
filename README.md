@@ -69,25 +69,21 @@ Contributions are welcome! To contribute:
       5.Create a Pull Request.
 
 
-License
-
+License:
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-Contact
-
+Contact:
 For support or inquiries, contact Atchaya Arumugam at atchayaarumugam2004@gmail.com.
 
-Acknowledgments
+Acknowledgments:
+1.Graph insight: Open-source software for reverse engineering.
 
-Graph insight: Open-source software for reverse engineering.
+2.ZEN scan: Tool for identifying and classifying malware samples.
 
-ZEN scan: Tool for identifying and classifying malware samples.
-
-Threat Scan: Online service for analyzing files and URLs for viruses.
+3.Threat Scan: Online service for analyzing files and URLs for viruses.
 
 
-GitHub Repository
-
+GitHub Repository:
 Find the source code at Malware Analysis & Cyber Attribution on GitHub: https://github.com/Atchaya3001/cyber_security.
 
 
